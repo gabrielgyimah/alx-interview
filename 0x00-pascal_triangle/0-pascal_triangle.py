@@ -2,6 +2,8 @@
 
 def pascal_triangle(n):
     """Pascals Triangle"""
+    if n == 0:
+        return []
     array = []
     for i in range(n):
         temp = []
