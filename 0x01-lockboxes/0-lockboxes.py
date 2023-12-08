@@ -16,3 +16,4 @@ def canUnlockAll(boxes):
             keys |= set(lock[k])
             del lock[k]
     return len(lock) == 0
+
