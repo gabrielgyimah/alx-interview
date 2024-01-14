@@ -1,45 +1,50 @@
 #!/usr/bin/python3
-""" NQueens Module """
-
-import sys
-
-
-def nqueens(n):
-    """
-    Solve the N-Queens puzzle and print the solutions
-    """
-    def backtrack(queens, cord_dif, cord_sum):
-        """
-        Recursive backtracking algorithm.
-        """
-        p = len(queens)
-        if p == n:
-            solution.append(queens)
-            return None
-        for q in range(n):
-            if q not in queens and p-q not in cord_dif and p+q not in cord_sum:
-                backtrack(queens + [q], cord_dif + [p - q], cord_sum + [p + q])
-    solution = []
-    final_solution = []
-    backtrack([], [], [])
-    for row in solution:
-        for i, col in enumerate(row):
-            cordinates = [i, col]
-            final_solution.append(cordinates)
-        print(final_solution)
-        final_solution = []
+"""ALX SE Interview Prep Module."""
+from sys import argv
 
 
-if __name__ == '__main__':
-    if len(sys.argv) != 2:
-        print("Usage: nqueens N")
+def n_queen(n):
+    """Return all possible arrange for the n-queen problem."""
+    col = set()
+    pos = set()
+    neg = set()
+    res = []
+    state = []
+
+    def backtrack(r):
+        """Recurse and do the backtracking."""
+        if r == n:
+            res.append([val for val in state])
+        for c in range(n):
+            if c in col or (r + c) in pos or (r - c) in neg:
+                continue
+            col.add(c)
+            pos.add(r + c)
+            neg.add(r - c)
+            state.append([r, c])
+
+            backtrack(r + 1)
+
+            col.remove(c)
+            pos.remove(r + c)
+            neg.remove(r - c)
+            state.pop()
+    backtrack(0)
+    return res
+
+
+def main():
+    if len(argv) != 2:
+        print('Usage: nqueens N')
         exit(1)
-    try:
-        n = int(sys.argv[1])
-    except ValueError:
-        print("N must be a number")
+    if not argv[1].isdigit():
+        print('N must be a number')
         exit(1)
-    if int(sys.argv[1]) < 4:
-        print("N must be at least 4")
+    if int(argv[1]) < 4:
+        print('N must be at least 4')
         exit(1)
-    nqueens(n)
+    for res in n_queen(int(argv[1])):
+        print(res)
+
+
+main()
